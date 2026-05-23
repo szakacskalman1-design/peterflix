@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --netflix-red: #e50914;
+  --netflix-dark: #0a0a0a;
+  --netflix-card: #141414;
+  --netflix-hover: #1f1f1f;
+  --netflix-text: #e5e5e5;
+  --netflix-muted: #6b6b6b;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-netflix-dark text-netflix-text font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-netflix-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-netflix-text;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-netflix-red text-white font-semibold px-6 py-2 rounded-md
+           hover:bg-red-700 transition-colors duration-200 cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply bg-white/20 text-white font-semibold px-6 py-2 rounded-md
+           hover:bg-white/30 transition-colors duration-200 backdrop-blur-sm cursor-pointer;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:z-10 hover:shadow-2xl;
+  }
+
+  .moment-row {
+    @apply flex gap-3 overflow-x-auto pb-4 snap-x;
+    scrollbar-width: thin;
+  }
+
+  .moment-row > * {
+    @apply snap-start flex-shrink-0;
+  }
+
+  .viral-bar {
+    @apply h-1.5 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-netflix-red;
+  }
+
+  .admin-input {
+    @apply w-full bg-[#222] text-white rounded px-3 py-2 text-sm outline-none
+           focus:ring-1 focus:ring-[#e50914] placeholder-gray-600 border border-transparent
+           focus:border-[#e50914]/30;
+  }
+}

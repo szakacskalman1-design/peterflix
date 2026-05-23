@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  color       String   @default("#e50914")
+  order       Int      @default(0)
+  moments     Moment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Moment {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  youtubeId    String
+  thumbnailUrl String?
+  platform     String   @default("regular") // "regular" | "shorts"
+  duration     Int      // másodpercekben
+  year         Int
+  viralScore   Int      @default(0) // 0-100
+  viewCount    Int      @default(0)
+  isHero       Boolean  @default(false)
+  tags         String[]
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(VIEWER)
+  createdAt    DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  VIEWER
+}

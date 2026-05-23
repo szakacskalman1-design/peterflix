@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env
+.env.local
+*.tsbuildinfo
+
+# Prisma
+backend/prisma/migrations/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(brew --version)",
+      "Bash(psql --version)",
+      "Bash(kill 16939)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl -s \"http://localhost:5173/src/index.css\")",
+      "Bash(curl -s http://localhost:3001/api/moments)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d[0]['youtubeId'], d[0]['title']\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"http://localhost:3001/api/moments\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(npx prisma *)",
+      "Bash(python3 -c \"import json,sys; d=json.loads\\(sys.stdin.read\\(\\)\\); print\\(f'{len\\(d\\)} videó az adatbázisban ✅'\\) if isinstance\\(d,list\\) else print\\('API hiba'\\)\")"
+    ]
+  }
+}
