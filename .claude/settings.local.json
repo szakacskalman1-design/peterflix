@@ -14,7 +14,11 @@
       "Bash(curl -s \"http://localhost:3001/api/moments\")",
       "Bash(python3 -m json.tool)",
       "Bash(npx prisma *)",
-      "Bash(python3 -c \"import json,sys; d=json.loads\\(sys.stdin.read\\(\\)\\); print\\(f'{len\\(d\\)} videó az adatbázisban ✅'\\) if isinstance\\(d,list\\) else print\\('API hiba'\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.loads\\(sys.stdin.read\\(\\)\\); print\\(f'{len\\(d\\)} videó az adatbázisban ✅'\\) if isinstance\\(d,list\\) else print\\('API hiba'\\)\")",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(psql --version 2>$null)",
+      "PowerShell(if \\(-not $?\\) { \"PostgreSQL nincs telep�tve vagy nem �rhet� el PATH-ban\" })"
     ]
   }
 }

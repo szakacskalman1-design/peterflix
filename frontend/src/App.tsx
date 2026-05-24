@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Category from './pages/Category'
 import MomentPage from './pages/Moment'
 import Admin from './pages/Admin'
+import Meme from './pages/Meme'
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/category/:slug" element={<Category />} />
         <Route path="/moment/:id" element={<MomentPage />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/meme" element={<Meme />} />
       </Routes>
     </BrowserRouter>
   )

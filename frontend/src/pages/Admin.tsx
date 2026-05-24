@@ -71,6 +71,7 @@ interface NewMomentForm {
   title: string
   description: string
   youtubeId: string
+  platform: 'shorts' | 'regular'
   year: string
   duration: string
   viralScore: string
@@ -80,8 +81,9 @@ interface NewMomentForm {
 }
 
 const EMPTY_FORM: NewMomentForm = {
-  title: '', description: '', youtubeId: '', year: String(new Date().getFullYear()),
-  duration: '120', viralScore: '75', isHero: false, categoryId: '', tags: ''
+  title: '', description: '', youtubeId: '', platform: 'shorts',
+  year: String(new Date().getFullYear()),
+  duration: '60', viralScore: '75', isHero: false, categoryId: '', tags: ''
 }
 
 function Dashboard() {
@@ -144,6 +146,11 @@ function Dashboard() {
               value={form.description} onChange={e => setField('description', e.target.value)} />
             <input className="admin-input" placeholder="YouTube ID (pl. -GWzL9j0hQs)*" value={form.youtubeId}
               onChange={e => setField('youtubeId', e.target.value)} required />
+            <select className="admin-input" value={form.platform}
+              onChange={e => setField('platform', e.target.value)}>
+              <option value="shorts">Shorts (9:16 portré)</option>
+              <option value="regular">Regular (16:9 fekvő)</option>
+            </select>
             <select className="admin-input" value={form.categoryId}
               onChange={e => setField('categoryId', e.target.value)} required>
               <option value="">Kategória*</option>

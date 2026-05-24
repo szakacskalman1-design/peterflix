@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import MomentRow from '../components/MomentRow'
+import TrendingRow from '../components/TrendingRow'
 import MomentCard from '../components/MomentCard'
 import { useMoments, useCategories } from '../hooks/useMoments'
 import { useSearch } from '../hooks/useSearch'
@@ -18,7 +18,7 @@ export default function Home() {
 
   const heroMoment = moments.find(m => m.isHero) ?? moments[0]
 
-  // Group moments by category
+  // Kategóriánkénti csoportosítás
   const byCategory: Record<string, { name: string; color: string; moments: Moment[] }> = {}
   for (const cat of categories) {
     byCategory[cat.id] = { name: cat.name, color: cat.color, moments: [] }
@@ -29,9 +29,10 @@ export default function Home() {
     }
   }
 
-  // Top viral row
+  // Top viral (trending)
   const topViral = [...moments].sort((a, b) => b.viralScore - a.viralScore).slice(0, 10)
 
+  // ── Betöltés ───────────────────────────────────────────────────────────────
   if (momentsLoading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
@@ -43,16 +44,16 @@ export default function Home() {
     )
   }
 
-  // Search results view
+  // ── Keresési nézet ────────────────────────────────────────────────────────
   if (q) {
     return (
       <div className="min-h-screen bg-[#0a0a0a]">
         <Navbar />
-        <div className="pt-24 px-6">
-          <h1 className="text-white text-2xl font-bold mb-2">
+        <div className="pt-20 sm:pt-24 px-4 sm:px-6">
+          <h1 className="text-white text-xl sm:text-2xl font-bold mb-1">
             Keresési eredmények: <span className="text-[#e50914]">„{q}"</span>
           </h1>
-          <p className="text-gray-400 text-sm mb-8">
+          <p className="text-gray-400 text-sm mb-6 sm:mb-8">
             {searchLoading ? 'Keresés…' : `${searchResults.length} találat`}
           </p>
           {searchLoading ? (
@@ -63,7 +64,7 @@ export default function Home() {
               <p>Nincs találat erre: <strong className="text-white">{q}</strong></p>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               {searchResults.map(m => <MomentCard key={m.id} moment={m} />)}
             </div>
           )}
@@ -72,6 +73,7 @@ export default function Home() {
     )
   }
 
+  // ── Főoldal ───────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
@@ -79,22 +81,25 @@ export default function Home() {
       {/* Hero */}
       {heroMoment && <Hero moment={heroMoment} />}
 
-      {/* Content rows */}
+      {/* Tartalom sorok */}
       <div className="pb-16 -mt-4 relative z-10">
-        {/* Top viral */}
-        <MomentRow title="🔥 Legjobb pillanatok" moments={topViral} accentColor="#e50914" />
 
-        {/* By category */}
-        {Object.values(byCategory).map(cat =>
-          cat.moments.length > 0 ? (
+        {/* 🔥 Trending (vizuálisan kiemelt) */}
+        <TrendingRow moments={topViral} />
+
+        {/* Kategória sorok */}
+        {categories.map(cat => {
+          const catData = byCategory[cat.id]
+          if (!catData || catData.moments.length === 0) return null
+          return (
             <MomentRow
-              key={cat.name}
+              key={cat.id}
               title={cat.name}
-              moments={cat.moments}
+              moments={catData.moments}
               accentColor={cat.color}
             />
-          ) : null
-        )}
+          )
+        })}
       </div>
     </div>
   )
