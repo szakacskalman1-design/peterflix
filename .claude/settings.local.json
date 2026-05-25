@@ -20,7 +20,12 @@
       "PowerShell(psql --version 2>$null)",
       "PowerShell(if \\(-not $?\\) { \"PostgreSQL nincs telep�tve vagy nem �rhet� el PATH-ban\" })",
       "Bash(npx tsc *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "PowerShell(cd \"C:\\\\Users\\\\Berci\\\\Documents\\\\_PETERFLIX\\\\frontend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\Berci\\\\Documents\\\\_PETERFLIX\\\\frontend'; npm run dev\")",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:5173\" -UseBasicParsing -TimeoutSec 5)",
+      "PowerShell(Start-Sleep -Seconds 4; try { \\(Invoke-WebRequest -Uri \"http://localhost:5173\" -UseBasicParsing -TimeoutSec 5\\).StatusCode } catch { \"not ready yet\" })",
+      "PowerShell(try { \\(Invoke-WebRequest -Uri \"http://localhost:5173\" -UseBasicParsing -TimeoutSec 3\\).StatusCode } catch { \"offline - restarting...\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\Berci\\\\Documents\\\\_PETERFLIX\\\\frontend'; npm run dev\" })",
+      "PowerShell(Start-Sleep -Seconds 3; try { \\(Invoke-WebRequest -Uri \"http://localhost:5173\" -UseBasicParsing -TimeoutSec 5\\).StatusCode } catch { \"not ready\" })"
     ]
   }
 }

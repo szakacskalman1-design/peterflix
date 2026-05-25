@@ -15,7 +15,10 @@ const app  = express()
 const PORT = process.env.PORT ?? 3001
 
 // ── Middleware ──────────────────────────────────────────────────────────────
-app.use(cors({ origin: process.env.FRONTEND_URL ?? 'http://localhost:5173' }))
+// Dev módban minden origin engedélyezett (mobil hálózati hozzáférés)
+// Production: FRONTEND_URL=https://peterflix.hu
+const allowedOrigin = process.env.FRONTEND_URL ?? true  // true = minden origin OK
+app.use(cors({ origin: allowedOrigin }))
 app.use(express.json())
 
 // ── Routes ──────────────────────────────────────────────────────────────────

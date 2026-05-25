@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Navbar from '../components/Navbar'
+// Navbar removed — TopHeader + BottomNav used via App.tsx layout
 import { useMoments } from '../hooks/useMoments'
 import type { Moment } from '../types'
 
@@ -37,7 +37,7 @@ function drawMeme(
   textColor: string,
   strokeColor: string,
   fontSize: number,
-  thumbUrl: string,
+  _thumbUrl: string,
 ) {
   const ctx = canvas.getContext('2d')!
   const W = canvas.width
@@ -281,9 +281,7 @@ export default function Meme() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <Navbar />
-
-      <div className="pt-20 pb-16 px-4 sm:px-6 max-w-5xl mx-auto">
+      <div className="pt-14 pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
         {/* Fejléc */}
         <div className="mb-8">
           <h1 className="text-white text-3xl sm:text-4xl font-black mb-1">

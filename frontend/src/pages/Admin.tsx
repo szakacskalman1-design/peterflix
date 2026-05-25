@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { login, isLoggedIn, getMoments, createMoment, deleteMoment } from '../lib/api'
 import { useCategories } from '../hooks/useMoments'
@@ -208,7 +207,6 @@ function Dashboard() {
 
 export default function Admin() {
   const [authed, setAuthed] = useState(isLoggedIn())
-  const navigate = useNavigate()
 
   if (!authed) {
     return <LoginForm onLogin={() => setAuthed(true)} />
