@@ -1,6 +1,8 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
 import { createServer } from 'http'
 import { WebSocketServer, WebSocket } from 'ws'
 import momentsRouter from './routes/moments'
@@ -13,12 +15,33 @@ import { pixelEvents, PixelEvent } from './events'
 
 const app  = express()
 const PORT = process.env.PORT ?? 3001
+const isProd = process.env.NODE_ENV === 'production'
 
-// ── Middleware ──────────────────────────────────────────────────────────────
-// Dev módban minden origin engedélyezett (mobil hálózati hozzáférés)
-// Production: FRONTEND_URL=https://peterflix.hu
-const allowedOrigin = process.env.FRONTEND_URL ?? true  // true = minden origin OK
-app.use(cors({ origin: allowedOrigin }))
+// ── Biztonság ────────────────────────────────────────────────────────────────
+// Alapvető HTTP security headerek (XSS, clickjacking, sniffing ellen)
+app.use(helmet())
+
+// Proxy mögötti valódi IP (Railway, Render stb.)
+app.set('trust proxy', 1)
+
+// ── CORS ─────────────────────────────────────────────────────────────────────
+// Productionban csak a saját domain, dev-ben minden origin (mobil tesztelés)
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL, `https://www.${process.env.FRONTEND_URL.replace(/^https?:\/\//, '')}`]
+  : true
+app.use(cors({ origin: allowedOrigins }))
+
+// ── Rate limiting ─────────────────────────────────────────────────────────────
+// Általános API limit: 120 kérés/perc IP-nként
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Túl sok kérés, próbáld újra egy perc múlva.' },
+})
+app.use('/api', apiLimiter)
+
 app.use(express.json())
 
 // ── Routes ──────────────────────────────────────────────────────────────────

@@ -1,11 +1,23 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import rateLimit from 'express-rate-limit'
 import { prisma } from '../lib/prisma'
 
 const router = Router()
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+// ── Brute-force védelem a login endpointon ────────────────────────────────────
+// Max 5 sikertelen kísérlet / 15 perc / IP — utána 15 percig blokkolva
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,   // 15 perc
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true, // sikeres login nem számít bele
+  message: { error: 'Túl sok bejelentkezési kísérlet. Próbáld újra 15 perc múlva.' },
+})
+
+router.post('/login', loginLimiter, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body
 

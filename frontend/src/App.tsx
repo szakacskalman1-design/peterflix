@@ -9,16 +9,21 @@ import Meme from './pages/Meme'
 import PixelCanvas from './pages/PixelCanvas'
 import BottomNav from './components/BottomNav'
 
+// ── Admin titkos URL ─────────────────────────────────────────────────────────
+// Nem linkeljük sehonnan — csak aki tudja az URL-t, az éri el.
+// Állítsd be: VITE_ADMIN_PATH=/valami-titkos az .env-ben (Netlify env vars)
+const ADMIN_PATH =
+  (import.meta as { env?: Record<string, string> }).env?.VITE_ADMIN_PATH ?? '/pf-studio'
+
 // ── Top header ────────────────────────────────────────────────────────────────
 // Csak a /, /search, /pixel, /meme oldalakon jelenik meg.
 // A /category/:slug és /moment/:id oldalak saját Navbar-t használnak.
-// Az /admin oldalon nincs navigáció.
+// Az admin oldalon nincs navigáció.
 function TopHeader() {
   const { pathname } = useLocation()
 
-  // Oldalak, amelyek saját Navbar-t használnak → TopHeader nem kell
   const skipTopHeader =
-    pathname === '/admin' ||
+    pathname === ADMIN_PATH ||
     pathname.startsWith('/category/') ||
     pathname.startsWith('/moment/')
 
@@ -45,7 +50,7 @@ function TopHeader() {
         </span>
       </Link>
 
-      {/* Desktop navigáció */}
+      {/* Desktop navigáció — admin link sehol sem jelenik meg */}
       <nav className="hidden md:flex items-center gap-5 text-sm">
         <Link to="/" className="text-gray-400 hover:text-white transition-colors">Feed</Link>
         <Link to="/search" className="text-gray-400 hover:text-white transition-colors">🔍 Keresés</Link>
@@ -53,10 +58,8 @@ function TopHeader() {
         <Link to="/meme" className="text-gray-400 hover:text-white transition-colors">😂 Mém Generátor</Link>
       </nav>
 
-      {/* Admin */}
-      <Link to="/admin" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">
-        Admin
-      </Link>
+      {/* Jobb oldali spacer (szimmetria) */}
+      <div style={{ width: 40 }} />
     </header>
   )
 }
@@ -64,7 +67,7 @@ function TopHeader() {
 // ── Bottom nav wrapper ────────────────────────────────────────────────────────
 function BottomNavWrapper() {
   const { pathname } = useLocation()
-  if (pathname === '/admin') return null
+  if (pathname === ADMIN_PATH) return null
   return <BottomNav />
 }
 
@@ -108,8 +111,8 @@ function AppLayout() {
         <Route path="/category/:slug" element={<Category />} />
         <Route path="/moment/:id" element={<MomentPage />} />
 
-        {/* Admin — teljesen önálló */}
-        <Route path="/admin" element={<Admin />} />
+        {/* Admin — titkos URL, sehonnan nem linkeljük */}
+        <Route path={ADMIN_PATH} element={<Admin />} />
       </Routes>
 
       <BottomNavWrapper />

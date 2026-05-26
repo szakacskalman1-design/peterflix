@@ -1,0 +1,14 @@
+# ── Netlify build konfiguráció ──────────────────────────────────────────────
+# A frontend mappa buildel, a distje kerül publikálásra.
+# A backend külön Railway-en fut (nem itt).
+
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+# ── Környezeti változók (a valódi értékeket a Netlify dashboardon add meg!) ──
+# [build.environment]
+#   VITE_API_URL    = "https://api.peterflix.hu/api"
+#   VITE_WS_URL     = "wss://api.peterflix.hu"
+#   VITE_ADMIN_PATH = "/valami-titkos-url"
